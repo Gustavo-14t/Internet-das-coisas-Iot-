@@ -15,7 +15,7 @@ e outra "ALERTA" todsa vez que alguém se aproximar a menos de 1 metro do sensor
 - 3 jumpers Macho/Fêmea;
 
 ## Montagem do Circuito
-![Imagem do Circuito](AtividadeLCD/TELA-LCD.png)
+![Imagem do Circuito](/AtividadeLCD/TELA-LCD.png)
 
 ## Explicação do Código
 
