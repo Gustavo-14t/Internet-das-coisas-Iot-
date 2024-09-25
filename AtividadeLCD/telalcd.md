@@ -1,4 +1,4 @@
-#Projeto de Tela LCD com sensor de distância
+# Projeto de Tela LCD com sensor de distância
 
 Este projeto foi desenvolvido dentro do Thinkercad, na disciplina de Internet das Coisas 
 (IOT), para a criação de protótipo com arduíno que simule uma mensagem de "Mantenha diastância"
