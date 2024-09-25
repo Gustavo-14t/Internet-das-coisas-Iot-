@@ -22,7 +22,7 @@ e outra "ALERTA" todsa vez que alguém se aproximar a menos de 1 metro do sensor
 
 Importando a biblioteca do LCD.
 
-#include <LiquidCrystal>
+#include LiquidCrystal
 
 
 criar variável do lcd
