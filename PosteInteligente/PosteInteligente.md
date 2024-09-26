@@ -15,7 +15,7 @@ pode acender ou desligar, dependedo do grau de luminosidade que ele detectar.
 
 ## Montagem do Circuito 
 
-![Imagem do circuito](/Posteinteligente/PosteInteligente.png)
+![Imagem do circuito](/PosteInteligente/PosteInteligente.png)
 
 ## Explicação do Código
 
