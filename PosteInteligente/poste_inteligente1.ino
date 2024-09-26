@@ -1,13 +1,13 @@
 // C++ code
 //
-int led = 4;
+int led = 3;
 int sensorLuminosidade = A0;
 int luz = 0;
 //Variável para capturar a luminosidade.
 
 void setup(){
  //Led é de saída
- //pinMode(led,OUTPUT);
+ pinMode(led,OUTPUT);
   
  //sensorLuminosidade é de entrada 
  pinMode(sensorLuminosidade, INPUT);
@@ -23,11 +23,18 @@ void loop(){
    0 até 1023 */
   if(luz<500){
     
-    //digitalWrite(led, HIGH);//LIGAR LED
+    analogWrite(led, 1023);//LIGAR LED
+    
+    if(luz>500 & luz < 900){
+      
+      // passar ao led instensidade média 
+      analogWrite(luz, 500);
+      
+    }
     
   }else{
     
-    digitalWrite(led, LOW); // DESLIGAR LED
+    analogWrite(led, 0); // DESLIGAR LED
 
   }
   
