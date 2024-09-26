@@ -139,9 +139,13 @@ void loop()
 
   
   if((cm1<50 || cm2<50)){
+
   -- Esse if vai perguntar se a frequência que o ultrasensor está reecebendo
+
   -- é menor que 50, se sim, ele vai executar toda a linha de código abaixo
+
   -- ligando o semáforo amarelo, esperando 2 segundos e lignado o vermelho do semáforo
+
   -- vermelho dos carros e liganfo o semáforo verde dos pedestres
   
   digitalWrite(vermelhoPedestre1, LOW);
