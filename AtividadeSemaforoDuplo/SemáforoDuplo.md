@@ -174,7 +174,9 @@ void loop()
   digitalWrite(ledVermelho1,LOW);  
 
   }else {
+
 -- Se não, ele executa todos os comandos abaixo, ligando o semáforo verde dos carros
+
 -- Desligando a cor verde e ligando a cor vermelho do semáforo dos pedestres.
 
     
