@@ -58,7 +58,7 @@ long distancia2(int trigger, int echo){
 }
 
 
-int x;
+
 void loop()
 {
   int cm1 = 0.01723 * distancia1 (10, 10);
@@ -66,8 +66,8 @@ void loop()
   
   digitalWrite(ledVerde1, HIGH);
   
-  if((cm1<50 || cm2<50)){x == 1;}
-  if(x =1){ 
+  if((cm1<50 || cm2<50)){
+  
   digitalWrite(vermelhoPedestre1, LOW);
   digitalWrite(vermelhoPedestre2, LOW);
   digitalWrite(ledVerde1, LOW);
@@ -93,7 +93,7 @@ void loop()
   digitalWrite(verdePedestre2,LOW);
   digitalWrite(vermelhoPedestre2, HIGH);
     delay(5000);
-    x ==1;
+    
 
   }
   
