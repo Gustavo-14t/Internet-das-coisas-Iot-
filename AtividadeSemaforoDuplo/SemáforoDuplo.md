@@ -21,7 +21,7 @@ o dos carros ficará verde.
 
 ## Montagem do Circuito 
 
-![Imagem do circuito](/AtividadeSemaforoDuplo/PostInteligente.png)
+![Imagem do circuito](/AtividadeSemaforoDuplo/AtividadeSemaforoDuplo.png.png)
 
 ## Explicação do Código
 
