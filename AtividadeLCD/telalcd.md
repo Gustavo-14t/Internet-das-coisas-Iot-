@@ -2,7 +2,7 @@
 
 Este projeto foi desenvolvido dentro do Thinkercad, na disciplina de Internet das Coisas 
 (IOT), para a criação de protótipo com arduíno que simule uma mensagem de "Mantenha diastância"
-e outra "ALERTA" todsa vez que alguém se aproximar a menos de 1 metro do sensor.
+e outra "ALERTA" toda vez que alguém se aproximar a menos de 1 metro do sensor.
 
 ## Componentes Usados 
 
