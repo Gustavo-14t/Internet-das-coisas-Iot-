@@ -5,10 +5,7 @@ Este projeto foi desenvolvido em sala de aula para a feira de Robótica, na disc
 Vídeo do canal Vinícius Cotrim: https://www.youtube.com/watch?v=7VWGwW_tDhs
 Esse vídeo serviu de base para o design visual do nosso projeto.
 Site do Emerson Carvalho: https://www.youtube.com/watch?v=7VWGwW_tDhs
-Site que nos pegamos o código e modificamos segundo as nossas necessidades.
-O objetivo do jogo é sair de uma das entradas e chegar até a outra, controlado o labirinto com um
-joystick, esse movimenta o labirinto para frente, trás e lados.
-
+Site que pegamos o projeto modelo para impressão 3D das peças do labirinto.
 ## Componentes Usados 
 
 - 1 Arduíno Uno;
@@ -17,134 +14,89 @@ joystick, esse movimenta o labirinto para frente, trás e lados.
 - 2 Micro servo motores 9g;
 - 8 jumpers Macho/Macho;
 - 4 jumpers Macho/Fêmea;
+- Algumas Peças imprimidas em 3D;
 
 ## Montagem do Circuito
 ![Imagem do Circuito](/Lab3dProjeto/Lab3d.jpeg)
 
 ## Explicação do Código
 
-#include 
 
-Servo myServoX; // define servo motor for X-axis 
+     //#include <Servo.h>
 
-Servo myServoY; // define servo motor for Y-axis 
+    Servo myServoX; // Servo motor for X-axis 
+    Servo myServoY; // Servo motor for Y-axis 
 
-int ServoXPin = 10; // define  X-axis pin
+    const int ServoXPin = 10; // X-axis pin
+    const int ServoYPin = 9; // Y-axis pin
+    const int ServoXHomePos = 90; // Home position for X servo
+    const int ServoYHomePos = 90; // Home position for Y servo
+    const int ServoXMinPos = 0; // Min position for X servo
+    const int ServoXMaxPos = 180; // Max position for X servo
+    const int ServoYMinPos = 0; // Min position for Y servo
+    const int ServoYMaxPos = 180; // Max position for Y servo
 
-int ServoYPin = 9; // define  Y-axis pin
+    const int XAxlePin = A0; // Joystick X-axis pin
+    const int YAxlePin = A1; // Joystick Y-axis pin
 
-int ServoXHomePos =90; // set home position for servos
+    const int range = 12; // Output range of X or Y movement
+    const int center = range / 2; // Resting position value
+    const int threshold = range / 4; // Resting threshold
 
-int ServoYHomePos =80; 
+    // Speed adjustment
+    const int speedFactor = 2; // Increase this value for faster movement
 
-int ServoXPos =103;
+    void setup() {
+    myServoX.attach(ServoXPin); // Attaching servo X 
+    myServoY.attach(ServoYPin); // Attaching servo Y
+    myServoX.write(ServoXHomePos); // Set initial position
+    myServoY.write(ServoYHomePos); // Set initial position
+    Serial.begin(9600); // Start serial communication
+    }
 
-int ServoYPos =135; 
+    void loop() {
+    int XAxleValue = readAxis(XAxlePin);
+    int YAxleValue = readAxis(YAxlePin);
 
-int XAxlePin = A0; // define  X-axis pin control for joystick A0
+    Serial.print("X: ");
+    Serial.print(XAxleValue);
+    Serial.print(" - Y: ");
+    Serial.println(YAxleValue);
 
-int YAxlePin = A1; // define  Y-axis pin control for joystick A1
+    // Move servos based on joystick input
+    moveServos(XAxleValue, YAxleValue);
 
-int XAxleValue = 0; // set start up value for joystick
+    delay(20); // Delay for stability and responsiveness
+    }
 
-int YAxleValue = 0;
+    int readAxis(int thisAxis) {
+    int reading = analogRead(thisAxis);
+    reading = map(reading, 0, 1023, 0, range);
+    int distance = reading - center;
 
-int Direction = 0;
+    return (abs(distance) < threshold) ? 0 : distance; // Return distance or 0
+    }
 
-int range = 12; // output range of X or Y movement
+    void moveServos(int XValue, int YValue) {
+    static int ServoXPos = ServoXHomePos;
+    static int ServoYPos = ServoYHomePos;
 
-int center = range/2; // resting position value
+    // Adjust X-axis servo position
+    if (XValue != 0) {
+        ServoXPos += (XValue > 0) ? -speedFactor : speedFactor; // Faster movement
+    }
 
-int threshold = range/4; // resting threshold
+    // Adjust Y-axis servo position
+    if (YValue != 0) {
+        ServoYPos += (YValue > 0) ? speedFactor : -speedFactor; // Faster movement
+    }
 
-void setup()
+    // Constrain servo positions
+    ServoXPos = constrain(ServoXPos, ServoXMinPos, ServoXMaxPos);
+    ServoYPos = constrain(ServoYPos, ServoYMinPos, ServoYMaxPos);
 
-{
-
-myServoX.attach(ServoXPin); // attaching servo X 
-
-myServoY.attach(ServoYPin); // attaching servo Y
-
-ServoXPos = ServoXHomePos;  // update ServoXPos with home position as startup
-
-ServoYPos = ServoYHomePos;  // update ServoYPos with home position as startup
-
-myServoX.write(ServoXPos);
-
-myServoY.write(ServoYPos);
-
-Serial.begin(9600);
-
+    // Update servos only if positions changed
+    myServoX.write(ServoXPos);
+    myServoY.write(ServoYPos);
 }
 
-void loop()
-
-{
-
-XAxleValue = readAxis(XAxlePin);
-
-YAxleValue = readAxis(YAxlePin);
-
-
-
-Serial.print(XAxleValue,DEC);
-
-Serial.print(" - ");
-
-Serial.println(YAxleValue,DEC);
-
-
-
-// check the values of joystick and move the servos smothly with delay of 100 millisecond
-
-if (XAxleValue>0) { ServoXPos--; myServoX.write(ServoXPos); delay(100*(7-XAxleValue)); }
-
-if (XAxleValue<0) { ServoXPos++; myServoX.write(ServoXPos); delay(100*(7+XAxleValue)); }
-
-if (YAxleValue>0) { ServoYPos++; myServoY.write(ServoYPos); delay(100*(7-YAxleValue)); }
-
-if (YAxleValue<0) { ServoYPos--; myServoY.write(ServoYPos); delay(100*(7+YAxleValue)); }
-
-
-
-
-
-if (ServoXPos>ServoXHomePos+20) { ServoXPos=ServoXHomePos+20; }
-
-if (ServoXPos<ServoXHomePos-20) { ServoXPos= ServoXHomePos-20; }
-
-if (ServoYPos>ServoYHomePos+20) { ServoYPos=ServoYHomePos+20; }
-
-if (ServoYPos<ServoYHomePos-20) { ServoYPos= ServoYHomePos-20; }
-
-delay(10);
-
-}
-
-int readAxis(int thisAxis) {
-
-// read the analog input:
-
-int reading = analogRead(thisAxis);
-
-// map the reading from the analog input range to the output range:
-
-reading = map(reading, 0, 1023, 0, range);
-
-// if the output reading is outside from the
-
-// rest position threshold, use it:
-
-int distance = reading - center;
-
-if (abs(distance) < threshold) {
-
-distance = 0;
-
-}
-
-// return the distance for this axis:
-
-return distance;
-
-}
