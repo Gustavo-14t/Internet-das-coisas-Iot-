@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <unistd.h> // Para a função sleep
+#include <string.h> // Para usar strcspn
+#include <stdlib.h> // Para system()
+ #include <conio.h>
+ 
+#define MAX_PESSOAS 10
+#define TAM_NOME 50
+
+int main() {
+    char nomes[MAX_PESSOAS][TAM_NOME]; // Matriz para armazenar os nomes
+    int tempos[MAX_PESSOAS]; // Matriz para armazenar os tempos
+    int minutos = 1; // Começa em 1 minuto
+    int segundos;
+    int i;
+
+    // Loop para cada pessoa
+    for (i = 0; i < MAX_PESSOAS; i++) {
+        printf("Digite o nome da pessoa %d: ", i + 1);
+        fgets(nomes[i], TAM_NOME, stdin);
+        // Remove a nova linha do final da string, se existir
+        nomes[i][strcspn(nomes[i], "\n")] = '\0';
+
+        segundos = minutos * 10; // Converte minutos em segundos
+
+        printf("Iniciando o timer para %s...\n", nomes[i]);
+
+        // Timer regressivo
+        while (segundos > 0) {
+            int min = segundos / 60; // Calcula os minutos restantes
+            int seg = segundos % 60;  // Calcula os segundos restantes
+
+            // Exibe o tempo restante
+            printf("\rTempo restante: %02d:%02d ", min, seg);
+            fflush(stdout); // Atualiza a saída
+
+            // Verifica se o usuário deseja pausar ou finalizar
+            if (kbhit()) { // Verifica se uma tecla foi pressionada
+                char opcao;
+                printf("\nDigite 'p' para pausar ou 'f' para finalizar: ");
+                scanf(" %c", &opcao); // Lê a opção do usuário
+                getchar(); // Limpa o buffer
+
+                if (opcao == 'p') {
+                    printf("Timer pausado. Pressione qualquer tecla para continuar...\n");
+                    getchar(); // Espera por uma tecla para continuar
+                } else if (opcao == 'f') {
+                    printf("\nTimer finalizado para %s!\n", nomes[i]);
+                    tempos[i] = (minutos * 60) - segundos; // Armazena o tempo até o momento
+                    break; // Sai do loop
+                }
+            }
+
+            sleep(1); // Pausa por 1 segundo
+            segundos--; // Decrementa o tempo
+        }
+
+        if (segundos == 0) {
+            printf("\nTempo esgotado para %s!\n", nomes[i]);
+            tempos[i] = minutos * 60; // Armazena o tempo total se não foi finalizado
+        }
+    }
+
+    // Exibição dos tempos armazenados
+    printf("\nTempos armazenados:\n");
+    for (i = 0; i < MAX_PESSOAS; i++) {
+        printf("%s: %d segundos\n", nomes[i], tempos[i]);
+    }
+
+    return 0;
+}
+
